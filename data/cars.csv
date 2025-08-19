@@ -1,2 +1,5 @@
 CarID,LicensePlateNumber,Make,Model,Year,Color,BodyType,EngineType,Transmission
 1,NEQ9382,TOYOTA,MUSTANG,1902,SILVER,SUV,Electric,Manual
+2,NEQ9382,svs,sfsf,2006,SILVER,Sedan,Gasoline,Automatic
+3,NEQ9382,TOYOTA,MUSTANG,2094,SILVER,Sedan,Gasoline,Manual
+4,sdvsd,svs,MUSTANG,1905,SILVER,Sedan,Gasoline,Automatic
