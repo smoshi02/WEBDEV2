@@ -1,0 +1,152 @@
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f7f1; /* very light matcha green */
+    color: #2f4f2f; /* dark green */
+    margin: 20px;
+}
+
+/* Headings */
+h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4b8b3b, #6fbf5b);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(75, 139, 59, 0.25);
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Links & Buttons */
+a, button {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 10px 16px; /* matched with form input height */
+    background-color: #4b8b3b;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+a:hover, button:hover {
+    background-color: #3a6a2b;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(75, 139, 59, 0.2);
+}
+
+th, td {
+    border: 1px solid #a4cfa1;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #a4cfa1; /* light matcha green */
+    color: #2f4f2f;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e7f0e9;
+}
+
+/* === Add/Edit Form Styling === */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(75, 139, 59, 0.2);
+}
+
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #2f4f2f;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #a4cfa1;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f9fdf9;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #4b8b3b;
+    box-shadow: 0 0 5px rgba(75, 139, 59, 0.3);
+}
+
+/* Search Form Styling */
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 10px; /* same as form inputs */
+    border: 1px solid #a4cfa1;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f9fdf9;
+}
+
+.search-form input[type="text"]:focus {
+    outline: none;
+    border-color: #4b8b3b;
+    box-shadow: 0 0 5px rgba(75, 139, 59, 0.3);
+}
+
+.search-form button {
+    padding: 10px 16px; /* same height as input */
+    font-size: 14px;
+}
+
+/* Error Styling */
+.error {
+    color: #a84444; /* soft red */
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Buttons inside forms */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+button.cancel {
+    background-color: #a84444;
+}
+
+button.cancel:hover {
+    background-color: #8c3838;
+}

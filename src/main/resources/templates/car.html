@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<main>
+    <div class="top-bar">
+        <h1>🚗 Car List</h1>
+        <a th:href="@{/new}" class="btn add-btn">Add Car</a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Make</th>
+                <th>Year</th>
+                <th>License Plate</th>
+                <th>Color</th>
+                <th>Body Type</th>
+                <th>Engine Type</th>
+                <th>Transmission</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="car, iterStat : ${cars}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${car.make}"></td>
+                <td th:text="${car.year}"></td>
+                <td th:text="${car.licensePlateNumber}"></td>
+                <td th:text="${car.color}"></td>
+                <td th:text="${car.bodyType}"></td>
+                <td th:text="${car.engineType}"></td>
+                <td th:text="${car.transmission}"></td>
+                <td>
+                    <a th:href="@{/edit(id=${car.id})}" class="btn edit">Edit</a>
+                    <a th:href="@{/delete(id=${car.id})}" class="btn delete">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
