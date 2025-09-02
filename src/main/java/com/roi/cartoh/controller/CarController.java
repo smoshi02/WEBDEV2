@@ -1,5 +1,6 @@
 package com.roi.cartoh.controller;
 
+import com.roi.cartoh.exception.ResourceNotFoundException;
 import com.roi.cartoh.model.Car;
 import com.roi.cartoh.repository.CarRepository;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,18 @@ public class CarController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        List<Car> cars = carRepository.findAll();
+    public String index(@RequestParam(required = false) String keyword, Model model) {
+        List<Car> cars;
+        if (keyword != null && !keyword.isEmpty()) {
+            cars = carRepository.findByMakeContainingIgnoreCaseOrLicensePlateNumberContainingIgnoreCase(keyword, keyword);
+        } else {
+            cars = carRepository.findAll();
+        }
         model.addAttribute("cars", cars);
+        model.addAttribute("keyword", keyword); // To keep the search box filled
         return "car"; // car.html
     }
+
 
     @GetMapping("/delete")
     public String deleteCar(@RequestParam int id) {
@@ -77,6 +85,12 @@ public class CarController {
         return "redirect:/"; // ✅ redirect after update
     }
 
-
+    @GetMapping("/view")
+    public String view(@RequestParam int id, Model model){
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Car", (long) id));
+        model.addAttribute("car", car);  // Add this line
+        return "view";
+    }
 }
 

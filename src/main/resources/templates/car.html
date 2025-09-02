@@ -10,6 +10,11 @@
 <main>
     <div class="top-bar">
         <h1>🚗 Car List</h1>
+        <form th:action="@{/}" method="get" class="search-form">
+            <input type="text" name="keyword" placeholder="Search cars..." th:value="${keyword}" />
+            <button type="submit">Search</button>
+        </form>
+
         <a th:href="@{/new}" class="btn add-btn">Add Car</a>
     </div>
 
