@@ -82,7 +82,7 @@ public class CarController {
             carDTO.setMake(car.getMake());
             carDTO.setModel(car.getModel());
             carDTO.setYear(car.getYear());
-            carDTO.setLicensePlateNumber(car.getLicensePlateNumber()); // Added
+            carDTO.setLicensePlateNumber(car.getLicensePlateNumber());
             carDTO.setColor(car.getColor());
             carDTO.setBodyType(car.getBodyType());
             carDTO.setEngineType(car.getEngineType());
@@ -91,11 +91,14 @@ public class CarController {
             model.addAttribute("car", carDTO);
             model.addAttribute("types", new String[]{"Gasoline", "Diesel", "Electric", "Hybrid"});
             model.addAttribute("sizes", new String[]{"Automatic", "Manual"});
-            model.addAttribute("carId", id); // keep ID for updating
+            model.addAttribute("carId", id);
             return "edit_car"; // edit_car.html
         }
-        return "redirect:/"; // not found, back to list
+
+        model.addAttribute("message", "Car with ID " + id + " not found.");
+        return "error/error";
     }
+
 
     @PostMapping("/update")
     public String update(@RequestParam int id,
