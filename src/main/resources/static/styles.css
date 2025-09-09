@@ -1,12 +1,12 @@
-/* Base Styles */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f7f1; /* very light matcha green */
-    color: #2f4f2f; /* dark green */
+    background-color: #f0f7f1;
+    color: #2f4f2f;
     margin: 20px;
 }
 
-/* H1 styling - full width and centered */
+
 h1 {
     color: #ffffff;
     text-align: center;
@@ -23,8 +23,7 @@ h1 {
     margin-right: auto;
 }
 
-/* New top-bar styling for search + add button container */
-/* Container for search and add button stacked vertically under h1 */
+
 .top-bar {
     max-width: 600px;
     margin: 0 auto 40px auto;
@@ -33,14 +32,14 @@ h1 {
     gap: 12px;
 }
 
-/* Search form - input + button side-by-side */
+
 .search-form {
     display: flex;
     gap: 8px;
 }
 
 
-/* Search input grows to fill space */
+
 .search-form input[type="text"] {
     flex-grow: 1;
     padding: 10px 14px;
@@ -58,7 +57,7 @@ h1 {
     box-shadow: 0 0 5px rgba(75, 139, 59, 0.3);
 }
 
-/* Search button styling */
+
 .search-form button {
     padding: 10px 16px;
     font-size: 14px;
@@ -74,7 +73,7 @@ h1 {
     background-color: #3a6a2b;
 }
 
-/* Add Car button below search form */
+
 .btn.add-btn {
     display: block;
     width: 100%;
@@ -93,11 +92,11 @@ h1 {
 .btn.add-btn:hover {
     background-color: #3a6a2b;
 }
-/* Links & Buttons */
+
 a, button {
     display: inline-block;
     margin-bottom: 15px;
-    padding: 10px 16px; /* matched with form input height */
+    padding: 10px 16px;
     background-color: #4b8b3b;
     color: white;
     text-decoration: none;
@@ -112,13 +111,13 @@ a:hover, button:hover {
     background-color: #3a6a2b;
 }
 
-/* Add Car button margin reset for alignment */
+
 .btn.add-btn {
     white-space: nowrap;
     margin: 0;
 }
 
-/* Table Styling */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -133,7 +132,7 @@ th, td {
 }
 
 th {
-    background-color: #a4cfa1; /* light matcha green */
+    background-color: #a4cfa1;
     color: #2f4f2f;
 }
 
@@ -141,16 +140,16 @@ tbody tr:nth-child(even) {
     background-color: #e7f0e9;
 }
 
-/* Error Styling */
+
 .error {
-    color: #a84444; /* soft red */
+    color: #a84444;
     font-size: 13px;
     margin-top: -10px;
     margin-bottom: 10px;
     display: block;
 }
 
-/* Buttons inside forms */
+
 .form-actions {
     display: flex;
     gap: 10px;
@@ -162,5 +161,21 @@ button.cancel {
 }
 
 button.cancel:hover {
+    background-color: #8c3838;
+}
+
+
+.btn.edit {
+    background-color: #3b82a0;
+}
+.btn.edit:hover {
+    background-color: #316d87;
+}
+
+
+.btn.delete {
+    background-color: #a84444;
+}
+.btn.delete:hover {
     background-color: #8c3838;
 }

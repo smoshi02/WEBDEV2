@@ -95,7 +95,7 @@ public class CarController {
             return "edit_car"; // edit_car.html
         }
 
-        model.addAttribute("message", "Car with ID " + id + " not found.");
+        model.addAttribute("message", "This id isn't available. Sorry about that.\nTry searching for something else.");
         return "error/error";
     }
 

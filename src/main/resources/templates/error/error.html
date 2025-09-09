@@ -5,8 +5,30 @@
     <link rel="stylesheet" href="/error.css"/>
 </head>
 <body>
-<h1>Error</h1>
-<p th:text="${message}">Something went wrong</p>
-<a th:href="@{/}">Back to Home</a>
+<div class="error-container">
+    <!-- Illustration -->
+    <div class="error-illustration">
+        🐵🔍
+    </div>
+
+    <!-- Error Title -->
+    <h1>Error</h1>
+
+    <!-- Error Text -->
+    <div class="error-message">
+        <p th:utext="${message}">
+            This page isn't available. Sorry about that.<br/>
+            Try searching for something else.
+        </p>
+    </div>
+
+    <!-- Logo -->
+    <div class="error-footer">
+        <h2 class="logo">🚗 Car List</h2>
+    </div>
+
+    <!-- Back Home Button -->
+    <a th:href="@{/}">Back to Home</a>
+</div>
 </body>
 </html>

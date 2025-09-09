@@ -1,4 +1,4 @@
-/* Simple Error Page CSS */
+
 * {
     margin: 0;
     padding: 0;
@@ -16,42 +16,72 @@ body {
     padding: 20px;
 }
 
-h1 {
-    font-size: 2.5rem;
-    color: #4a5a1e;
-    margin-bottom: 20px;
+
+.error-container {
     text-align: center;
+    background: #f5f9f0;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    max-width: 450px;
+    width: 100%;
 }
 
-p {
+
+.error-illustration {
+    font-size: 90px;
+    margin-bottom: 15px;
+}
+
+
+h1 {
+    font-size: 2.2rem;
+    color: #4a5a1e;
+    margin-bottom: 15px;
+}
+
+
+.error-message p {
     font-size: 1.1rem;
     color: #4a5a1e;
-    margin-bottom: 30px;
-    text-align: center;
+    margin-bottom: 25px;
+    line-height: 1.5;
 }
+
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2e3b2f;
+    margin-bottom: 25px;
+}
+
 
 a {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 12px 26px;
     background: #7ba23f;
     color: white;
     text-decoration: none;
     border-radius: 25px;
     font-weight: 500;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 a:hover {
     background: #6a9238;
+    transform: translateY(-2px);
 }
 
-/* Mobile responsive */
-@media (max-width: 480px) {
-    h1 {
-        font-size: 2rem;
-    }
 
-    p {
+@media (max-width: 480px) {
+    .error-container {
+        padding: 30px 20px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+    .error-message p {
         font-size: 1rem;
     }
 }
