@@ -9,7 +9,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public String handleResourceNotFound(ResourceNotFoundException ex, Model model) {
-        model.addAttribute("message", "This page isn't available. Sorry about that.\nTry searching for something else.");
+        model.addAttribute("message", "This id isn't available. Sorry about that.\nTry searching for something else.");
         return "error/error";
     }
 
