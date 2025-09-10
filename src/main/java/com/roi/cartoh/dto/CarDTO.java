@@ -14,6 +14,7 @@ public class CarDTO {
 
     @Min(value = 1900, message = "Year must be >= 1900")
     @Max(value = 2100, message = "Year must be <= 2100")
+    @NotNull(message = "Year is required")
     private Integer year;
 
     @NotBlank(message = "License Plate Number is required")

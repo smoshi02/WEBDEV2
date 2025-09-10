@@ -62,12 +62,37 @@ select:focus {
     font-style: italic;
 }
 
+/* Remove default browser styling for valid/invalid states */
+input:valid,
+input:invalid {
+    box-shadow: none;
+}
+
 /* Add red border and subtle red background for inputs/selects with errors */
+/* Error states: Thymeleaf (.error) + HTML5 invalid (:invalid) */
 input.error,
-select.error {
+select.error,
+input:invalid {
+    border-color: #b33a3a !important;
+    background-color: #f9e6e6 !important;
+}
+
+/* Ensure number inputs (like Year) also get error styling */
+input.error,
+select.error,
+input[type="number"].error {
     border-color: #b33a3a;
     background-color: #f9e6e6;
 }
+
+/* Error message text */
+div.error {
+    color: #b33a3a;
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+
 
 /* Optional: Change placeholder color in error fields */
 input.error::placeholder,

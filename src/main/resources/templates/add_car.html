@@ -8,7 +8,7 @@
 </head>
 <body>
 <main>
-    <form th:action="@{/save}" th:object="${car}" method="post" class="car-form">
+    <form th:action="@{/save}" th:object="${car}" method="post" class="car-form" novalidate>
         <h1>Add New Car</h1>
 
         <label for="make">Make:</label>
@@ -22,7 +22,7 @@
         <div th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="error"></div>
 
         <label for="year">Year:</label>
-        <input type="number" id="year" th:field="*{year}" min="1900" max="2100"
+        <input type="number" id="year" th:field="*{year}"
                th:classappend="${#fields.hasErrors('year')} ? 'error' : ''" />
         <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error"></div>
 

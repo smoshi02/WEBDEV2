@@ -8,7 +8,7 @@
 </head>
 <body>
 <main>
-    <form th:action="@{/update}" th:object="${car}" method="post" class="car-form"> <!-- ✅ fixed -->
+    <form th:action="@{/update}" th:object="${car}" method="post" class="car-form" novalidate>
         <h1>Edit Car</h1>
 
         <input type="hidden" th:field="*{id}" />
@@ -19,7 +19,7 @@
         <div th:if="${#fields.hasErrors('make')}" th:errors="*{make}" class="error"></div>
 
         <label for="year">Year:</label>
-        <input type="number" id="year" th:field="*{year}" min="1900" max="2100"
+        <input type="number" id="year" th:field="*{year}"
                th:classappend="${#fields.hasErrors('year')} ? 'error' : ''" />
         <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error"></div>
 
