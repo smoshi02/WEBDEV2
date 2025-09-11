@@ -179,3 +179,12 @@ button.cancel:hover {
 .btn.delete:hover {
     background-color: #8c3838;
 }
+
+button.logout-btn {
+    background-color: #a84444; /* red-ish */
+}
+
+button.logout-btn:hover {
+    background-color: #8c3838;
+}
+

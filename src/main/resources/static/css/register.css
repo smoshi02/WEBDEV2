@@ -1,0 +1,329 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #d4f1d4 0%, #e8f5e8 50%, #f0f9f0 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated background elements with different pattern for register */
+body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(107, 142, 35, 0.08) 0%, transparent 70%);
+    animation: floatBackgroundReverse 25s ease-in-out infinite;
+}
+
+@keyframes floatBackgroundReverse {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-25px, 35px) rotate(-90deg); }
+    66% { transform: translate(30px, -25px) rotate(-180deg); }
+}
+
+.register-container {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow:
+            0 25px 50px rgba(107, 142, 35, 0.15),
+            0 15px 25px rgba(107, 142, 35, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(107, 142, 35, 0.2);
+    width: 420px;
+    max-width: 92vw;
+    position: relative;
+    transform: translateY(0) scale(1);
+    animation: slideInScale 1s ease-out;
+}
+
+@keyframes slideInScale {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.register-title {
+    color: #556b2f;
+    font-size: 2.4em;
+    font-weight: 400;
+    margin-bottom: 12px;
+    animation: fadeInDown 1.2s ease-out 0.2s both;
+    letter-spacing: -0.5px;
+}
+
+.register-subtitle {
+    color: #7fb069;
+    font-size: 0.95em;
+    animation: fadeInDown 1.2s ease-out 0.4s both;
+    font-weight: 300;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    margin-bottom: 28px;
+    position: relative;
+    animation: fadeInUp 1s ease-out both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.5s; }
+.form-group:nth-child(2) { animation-delay: 0.65s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+label {
+    display: block;
+    color: #556b2f;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input {
+    width: 100%;
+    padding: 17px 20px;
+    border: 2px solid #e8f5e8;
+    border-radius: 15px;
+    font-size: 1.05em;
+    background: rgba(255, 255, 255, 0.85);
+    color: #4a4a4a;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    font-weight: 400;
+}
+
+input:focus {
+    border-color: #7fb069;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow:
+            0 0 0 4px rgba(127, 176, 105, 0.12),
+            0 8px 25px rgba(107, 142, 35, 0.1);
+    transform: translateY(-3px);
+}
+
+input:focus + label {
+    color: #7fb069;
+}
+
+/* Enhanced placeholder styling */
+input::placeholder {
+    color: #a8c89a;
+    opacity: 0.7;
+}
+
+.register-button {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #7fb069 0%, #6b8e23 50%, #556b2f 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-out 0.8s both;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.register-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s;
+}
+
+.register-button:hover::before {
+    left: 100%;
+}
+
+.register-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.register-button:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.register-button:hover {
+    background: linear-gradient(135deg, #6b8e23 0%, #556b2f 50%, #3d4f1f 100%);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(107, 142, 35, 0.4);
+}
+
+.register-button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(107, 142, 35, 0.3);
+}
+
+.login-link {
+    display: block;
+    text-align: center;
+    margin-top: 28px;
+    color: #7fb069;
+    text-decoration: none;
+    font-size: 0.92em;
+    transition: all 0.4s ease;
+    animation: fadeInUp 1s ease-out 1s both;
+    font-weight: 400;
+}
+
+.login-link:hover {
+    color: #556b2f;
+    transform: translateY(-3px);
+    text-shadow: 0 2px 8px rgba(107, 142, 35, 0.3);
+}
+
+/* Enhanced floating elements for register page */
+.floating-element {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(127, 176, 105, 0.08);
+    animation: float 8s ease-in-out infinite;
+    border: 1px solid rgba(107, 142, 35, 0.1);
+}
+
+.floating-element:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    top: 8%;
+    left: 8%;
+    animation-delay: 0s;
+    background: rgba(85, 107, 47, 0.06);
+}
+
+.floating-element:nth-child(2) {
+    width: 70px;
+    height: 70px;
+    top: 75%;
+    right: 12%;
+    animation-delay: -2.5s;
+    background: rgba(107, 142, 35, 0.08);
+}
+
+.floating-element:nth-child(3) {
+    width: 50px;
+    height: 50px;
+    bottom: 15%;
+    left: 15%;
+    animation-delay: -5s;
+    background: rgba(127, 176, 105, 0.1);
+}
+
+.floating-element:nth-child(4) {
+    width: 35px;
+    height: 35px;
+    top: 25%;
+    right: 25%;
+    animation-delay: -1s;
+    background: rgba(85, 107, 47, 0.05);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg) scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* Enhanced responsive design */
+@media (max-width: 480px) {
+    .register-container {
+        padding: 35px 28px;
+        margin: 20px;
+    }
+
+    .register-title {
+        font-size: 2em;
+    }
+
+    .register-subtitle {
+        font-size: 0.9em;
+    }
+
+    input {
+        padding: 15px 18px;
+        font-size: 1em;
+    }
+
+    .register-button {
+        padding: 16px;
+        font-size: 1.05em;
+    }
+}
+
+@media (max-width: 360px) {
+    .register-container {
+        padding: 30px 20px;
+    }
+
+    .floating-element {
+        display: none; /* Hide floating elements on very small screens */
+    }
+}
