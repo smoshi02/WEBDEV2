@@ -5,6 +5,9 @@ import com.roi.employeee.exception.ResourceNotFoundException;
 import com.roi.employeee.model.Employee;
 import com.roi.employeee.repository.EmployeeRepository;
 import jakarta.validation.Valid;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +38,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/delete")
-    public String deleteEmployee(@RequestParam int id) {
+    public String deleteEmployee(@RequestParam Long id) {
         employeeRepository.deleteById(id);
         return "redirect:/";
     }
@@ -68,7 +71,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/edit")
-    public String edit(@RequestParam int id, Model model) {
+    public String edit(@RequestParam Long id, Model model) {
         Employee employee = employeeRepository.findById(id).orElse(null);
         if (employee != null) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -86,12 +89,14 @@ public class EmployeeController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam int id,
-                         @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
+    public String update(@Valid @ModelAttribute("employee") EmployeeDTO employeeDTO,
                          BindingResult bindingResult,
                          Model model) {
 
-        if (employeeRepository.existsByEmail(employeeDTO.getEmail()) && !employeeRepository.findById(id).get().getEmail().equals(employeeDTO.getEmail())) {
+        Long id = employeeDTO.getId();
+
+        if (employeeRepository.existsByEmail(employeeDTO.getEmail()) &&
+                !employeeRepository.findById(id).get().getEmail().equals(employeeDTO.getEmail())) {
             bindingResult.rejectValue("email", "error.email", "Email already exists");
         }
 

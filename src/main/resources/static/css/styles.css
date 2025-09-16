@@ -1,0 +1,117 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f6f9;
+    color: #333;
+}
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.top-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.add-btn {
+    align-self: flex-start;
+}
+
+
+
+.top-bar h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+
+.btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.add-btn {
+    background: #ba68c8;
+    color: #fff;
+}
+
+.add-btn:hover {
+    background: #ab47bc;
+}
+
+.logout-btn {
+    background: #ce93d8;
+    color: #fff;
+}
+
+.logout-btn:hover {
+    background: #ba68c8;
+}
+
+.edit {
+    background: #7e57c2;
+    color: #fff;
+}
+
+.edit:hover {
+    background: #6a1b9a;
+}
+
+.delete {
+    background: #f06292;
+    color: #fff;
+}
+
+.delete:hover {
+    background: #ec407a;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #7e57c2;
+    color: #fff;
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background: #f3e5f5;
+}
+
+tbody tr:hover {
+    background: #f1f1f1;
+}

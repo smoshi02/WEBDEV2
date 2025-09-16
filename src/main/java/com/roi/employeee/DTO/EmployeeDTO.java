@@ -6,9 +6,11 @@ public class EmployeeDTO {
 
     private Long id;
 
-    @Size(min = 2, max = 100, message = "Name should be between 2 and 100 characters")
+    @NotBlank(message = "Name is required")
+    @Size(min = 5, max = 100, message = "Name should be between 5 and 100 characters")
     private String name;
 
+    @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     private String email;
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Employee</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+<body>
+<main>
+    <form th:action="@{/update}" th:object="${employee}" method="post" class="employee-form" novalidate>
+        <h1>Edit Employee</h1>
+
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}"
+               th:classappend="${#fields.hasErrors('name')} ? 'error' : ''" />
+        <div class="error"
+             th:if="${#fields.hasErrors('name')}"
+             th:text="${#fields.errors('name')[0]}"></div>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}"
+               th:classappend="${#fields.hasErrors('email')} ? 'error' : ''" />
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn save">Update Employee</button>
+            <a th:href="@{/}" class="btn cancel">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,101 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f3e5f5;
+    color: #4a148c;
+}
+
+main {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
+}
+
+.employee-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.employee-form h1 {
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+    text-align: center;
+    color: #7e57c2;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #6a1b9a;
+}
+
+input[type="text"],
+input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ce93d8;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #7e57c2;
+    box-shadow: 0 0 6px rgba(126, 87, 194, 0.3);
+    outline: none;
+}
+
+.error {
+    color: #d81b60;
+    font-size: 0.85rem;
+    margin-top: -8px;
+    margin-bottom: 5px;
+}
+
+input.error {
+    border-color: #d81b60;
+    box-shadow: 0 0 4px rgba(216, 27, 96, 0.4);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.save {
+    background: #ba68c8;
+    color: #fff;
+}
+
+.save:hover {
+    background: #ab47bc;
+    transform: translateY(-2px);
+}
+
+.cancel {
+    background: #f06292;
+    color: #fff;
+    text-align: center;
+}
+
+.cancel:hover {
+    background: #ec407a;
+    transform: translateY(-2px);
+}
