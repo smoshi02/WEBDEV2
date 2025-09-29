@@ -1,39 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-50 text-gray-800">
-    <header>
-      <nav class="shadow-sm bg-white">
-        <div class="max-w-4xl mx-auto py-3 flex justify-between items-center">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-500 text-white rounded-md flex items-center justify-center font-semibold">J</div>
-            <div class="text-lg font-medium">John Co.</div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+  <header>
+    <nav class="shadow-sm bg-white">
+      <div class="max-w-4xl mx-auto py-3 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-700 text-white rounded-md flex items-center justify-center font-semibold">J
           </div>
-          <div class="space-x-4">
-            <a href="#" class="hover:text-blue-500 hover:font-semibold">Home</a>
-            <a href="#" class="hover:text-blue-500 hover:font-semibold">About</a>
-            <a href="#" class="hover:text-blue-500 hover:font-semibold">Contact</a>
-          </div>
+          <div class="text-lg font-medium">John Co.</div>
         </div>
-      </nav>
+        <div class="hidden md:flex space-x-4">
+          <a href="#" class="hover:text-blue-500 hover:font-semibold">Home</a>
+          <a href="#" class="hover:text-blue-500 hover:font-semibold">About</a>
+          <a href="#" class="hover:text-blue-500 hover:font-semibold">Contact</a>
+        </div>
 
-      <div class="px-4 my-12 bg-white rounded shadow p-8 max-w-4xl mx-auto">
-        <h1 class="text-2xl font-bold mb-2 ">Build interfaces with Tailwind CSS</h1>
-        <p class="text-gray-600 mb-6">
-          Utility-first classes let you compose UI directly in HTML. Enjoy
-          styling!
-        </p>
-
-        <div class="flex gap-3">
-          <a href="#" class="px-4 py-2 rounded bg-blue-500 text-white">Try components</a>
-          <a href="#" class="px-4 py-2 rounded border">Do practice tasks</a>
+        <div class="flex flex-col space-y-1 md:hidden">
+          <span class="w-6 h-0.5 bg-gray-800"></span>
+          <span class="w-6 h-0.5 bg-gray-800"></span>
+          <span class="w-6 h-0.5 bg-gray-800"></span>
         </div>
       </div>
-    </header>
-  </body>
+    </nav>
+
+    <div class="px-4 my-12 bg-white rounded shadow p-8 max-w-4xl mx-auto">
+      <h1 class="text-2xl font-bold mb-2 ">Build interfaces with Tailwind CSS</h1>
+      <p class="text-gray-600 mb-6">
+        Utility-first classes let you compose UI directly in HTML. Enjoy
+        styling!
+      </p>
+
+      <div class="flex gap-3">
+        <a href="#" class="px-4 py-2 rounded bg-blue-700 text-white">Try components</a>
+        <a href="#" class="px-4 py-2 rounded border">Do practice tasks</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-lg font-bold">Card Components</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+        <div class="shadow-md bg-white rounded-md px-4 py-3">
+          <h2 class="font-semibold">User</h2>
+          <p class="text-sm text-gray-600">Name, role, quick actions</p>
+          <div class="mt-3 flex justify-end">
+            <a href="#" class="px-3 py-1 border rounded text-sm">Edit</a>
+          </div>
+        </div>
+        <div class="shadow-md bg-white rounded-md px-4 py-3">
+          <h2 class="font-semibold">Stats</h2>
+          <p class="text-sm text-gray-600">Show counters or badges here.</p>
+          <div class="flex gap-4">
+            <h2 class="font-bold text-2xl my-2">42</h2>
+            <p class="text-sm text-gray-600 flex items-center">Active</p>
+          </div>
+        </div>
+        <div class="shadow-md bg-white rounded-md px-4 py-3">
+          <h2 class="font-semibold">Notes</h2>
+          <p class="text-sm text-gray-600">Short multi-line content fits well.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-7 max-w-4xl mx-auto ">
+      <h2 class="text-lg font-bold mb-4">Simple form</h2>
+      <div class="bg-white shadow-md rounded-md p-5">
+        <form class="space-y-4">
+          <div>
+            <label class="block mt-2">Name</label>
+            <input type="text" placeholder="Your Name" class="mt-1 w-full border rounded-md px-3 py-2 
+           focus:outline-none
+           focus:ring-2 focus:ring-blue-500
+           focus:shadow-xl/20 focus:shadow-blue-500/50">
+          </div>
+
+          <div class="mt-4">
+            <label class="block">Email</label>
+            <input type="email" placeholder="you@example.com" class="mt-1 w-full border rounded-md px-3 py-2 
+           focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-0">
+          </div>
+
+          <div class="mt-4">
+            <label class="block">Message</label>
+            <textarea placeholder="Short note" class="mt-1 w-full border rounded-md pt-3 px-3 py-7 
+           focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-0"></textarea>
+          </div>
+
+
+          <div class="flex justify-between items-center mb-2">
+            <p class="text-gray-600">Try changing classes to see effects.</p>
+            <a href="#" class="bg-blue-700 text-white px-5 py-2 rounded-md">Send</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto mt-7 mb-28">
+      <h2 class="text-lg font-bold mb-4">Table</h2>
+      <div class="overflow-x-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full text-sm text-left">
+          <thead class="bg-gray-100 font-bold">
+            <tr>
+              <td class="px-6 py-3">#</td>
+              <td class="px-6 py-3">Name</td>
+              <td class="px-6 py-3">Role</td>
+              <td class="px-6 py-3">Status</td>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr class="border-y">
+              <td class="px-6 py-4">1</td>
+              <td class="px-6 py-4">Ana</td>
+              <td class="px-6 py-4">Student</td>
+              <td class="px-6 py-4">
+                <p class="w-14 px-2 py-1 bg-green-100 rounded-md">Active</p>
+              </td>
+            </tr>
+            <tr class="border-y">
+              <td class="px-6 py-4">2</td>
+              <td class="px-6 py-4">Ben</td>
+              <td class="px-6 py-4">Instructor</td>
+              <td class="px-6 py-4">
+                <p class="w-16 px-2 py-1 bg-yellow-100 rounded-md">Pending</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <footer class="max-w-4xl mx-auto">
+    <p class="bg-white shadow-md rounded-md px-4 py-3 flex items-center justify-center">Use this file to teach
+      utility classes and rapid prototyping.</p>
+  </footer>
+</body>
 </html>
