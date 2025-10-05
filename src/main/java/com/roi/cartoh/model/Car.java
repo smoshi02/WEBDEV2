@@ -1,9 +1,7 @@
 package com.roi.cartoh.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 @Entity
 public class Car {
 
@@ -12,16 +10,25 @@ public class Car {
     Integer id;
 
     String make;
-    String model;    // <--- add this field
-    Integer year;    // recommended wrapper type
+    String model;
+    Integer year;
+
+    @Column(name = "license_plate_number")
     String licensePlateNumber;
+
     String color;
+
+    @Column(name = "body_type")
     String bodyType;
+
+    @Column(name = "engine_type")
     String engineType;
+
     String transmission;
 
-    // constructors (including model)
-    public Car(Integer id, String make, String model, Integer year, String licensePlateNumber, String color, String bodyType, String engineType, String transmission) {
+    public Car(Integer id, String make, String model, Integer year,
+               String licensePlateNumber, String color,
+               String bodyType, String engineType, String transmission) {
         this.id = id;
         this.make = make;
         this.model = model;
@@ -35,60 +42,30 @@ public class Car {
 
     public Car() {}
 
-    // Getters & Setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public String getMake() {
-        return make;
-    }
-    public void setMake(String make) {
-        this.make = make;
-    }
-    public String getModel() {          // <-- add getter/setter for model
-        return model;
-    }
-    public void setModel(String model) {
-        this.model = model;
-    }
-    public Integer getYear() {
-        return year;
-    }
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-    public String getLicensePlateNumber() {
-        return licensePlateNumber;
-    }
-    public void setLicensePlateNumber(String licensePlateNumber) {
-        this.licensePlateNumber = licensePlateNumber;
-    }
-    public String getColor() {
-        return color;
-    }
-    public void setColor(String color) {
-        this.color = color;
-    }
-    public String getBodyType() {
-        return bodyType;
-    }
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
-    }
-    public String getEngineType() {
-        return engineType;
-    }
-    public void setEngineType(String engineType) {
-        this.engineType = engineType;
-    }
-    public String getTransmission() {
-        return transmission;
-    }
-    public void setTransmission(String transmission) {
-        this.transmission = transmission;
-    }
+    public String getMake() { return make; }
+    public void setMake(String make) { this.make = make; }
+
+    public String getModel() { return model; }
+    public void setModel(String model) { this.model = model; }
+
+    public Integer getYear() { return year; }
+    public void setYear(Integer year) { this.year = year; }
+
+    public String getLicensePlateNumber() { return licensePlateNumber; }
+    public void setLicensePlateNumber(String licensePlateNumber) { this.licensePlateNumber = licensePlateNumber; }
+
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = color; }
+
+    public String getBodyType() { return bodyType; }
+    public void setBodyType(String bodyType) { this.bodyType = bodyType; }
+
+    public String getEngineType() { return engineType; }
+    public void setEngineType(String engineType) { this.engineType = engineType; }
+
+    public String getTransmission() { return transmission; }
+    public void setTransmission(String transmission) { this.transmission = transmission; }
 }

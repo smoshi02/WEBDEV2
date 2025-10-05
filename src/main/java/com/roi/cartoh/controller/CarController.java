@@ -101,7 +101,7 @@ public class CarController {
 
 
     @PostMapping("/update")
-    public String update(@RequestParam int id,
+    public String update(@RequestParam Integer id,
                          @ModelAttribute("car") @Valid CarDTO carDTO,
                          BindingResult bindingResult,
                          Model model) {
@@ -134,7 +134,7 @@ public class CarController {
     @GetMapping("/view")
     public String view(@RequestParam int id, Model model) {
         Car car = carRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", (long) id));
+                .orElseThrow(() -> new ResourceNotFoundException("Car", (Integer) id));
         model.addAttribute("car", car);
         return "view";
     }

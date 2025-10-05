@@ -9,6 +9,8 @@
 <body>
 <main>
     <form th:action="@{/save}" th:object="${car}" method="post" class="car-form" novalidate>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <h1>Add New Car</h1>
 
         <label for="make">Make:</label>
