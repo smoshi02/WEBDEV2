@@ -4,7 +4,9 @@ import com.roi.cartoh.dto.CarDTO;
 import com.roi.cartoh.exception.ResourceNotFoundException;
 import com.roi.cartoh.model.Car;
 import com.roi.cartoh.repository.CarRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,8 +26,8 @@ public class CarService {
 
     // Get car by ID
     public Car findById(Integer id) {
-        return carRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", id));
+        return carRepository.findById(id).orElse(null);
+
     }
 
     // Save new car
@@ -43,9 +45,7 @@ public class CarService {
     }
 
     // Update existing car
-    public Car updateCar(Integer id, CarDTO carDTO) {
-        Car car = carRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", id));
+    public Car updateCar(Car car, CarDTO carDTO) {
 
         car.setMake(carDTO.getMake());
         car.setModel(carDTO.getModel());
@@ -58,10 +58,9 @@ public class CarService {
         return carRepository.save(car);
     }
 
+
     // Delete car
     public void deleteCar(Integer id) {
-        Car car = carRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", id));
-        carRepository.delete(car);
+        carRepository.deleteById(id);
     }
 }

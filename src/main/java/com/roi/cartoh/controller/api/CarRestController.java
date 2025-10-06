@@ -12,11 +12,11 @@ import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
-public class RestController {
+public class CarRestController {
 
     private final CarService carService;
 
-    public RestController(CarService carService) {
+    public CarRestController(CarService carService) {
         this.carService = carService;
     }
 
@@ -27,27 +27,22 @@ public class RestController {
     }
 
 
-    @GetMapping("/cars/{id}")
-    public Car getCarById(@PathVariable Integer id) {
-
-        return carService.findById(id);
-    }
-
-
     @PostMapping("/cars")
     public Car newCar(@Valid @RequestBody CarDTO car) {
+
         return carService.save(car);
     }
 
 
     @PutMapping("/cars/{id}")
-    public Car updateCar(@PathVariable Integer id, @Valid @RequestBody CarDTO car){
+    public Car updateCar(@PathVariable Integer id, @Valid @RequestBody CarDTO carDetails) {
         Car updateCar = carService.findById(id);
-        if (updateCar == null) {
+        if(carService.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with ID "+ id + " not found.");
         }
-        return carService.updateCar(id, car);
+        return carService.updateCar(updateCar, carDetails);
     }
+
 
 
     @DeleteMapping("/cars/{id}")
