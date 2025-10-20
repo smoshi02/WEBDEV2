@@ -1,6 +1,5 @@
 const apiUrl = 'http://localhost:8080/api';
 
-// =================== DOM CONTENT LOADED ===================
 document.addEventListener("DOMContentLoaded", function() {
     fetchCars();
 
@@ -11,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// =================== FETCH CARS ===================
 function fetchCars() {
     fetch(`${apiUrl}/cars`)
         .then(res => {
@@ -20,7 +18,7 @@ function fetchCars() {
         })
         .then(cars => {
             const tbody = document.getElementById("carTableBody");
-            tbody.innerHTML = ""; // clear table first
+            tbody.innerHTML = ""; 
 
             cars.forEach((car, index) => {
                 tbody.innerHTML += `
@@ -51,7 +49,6 @@ function fetchCars() {
         .catch(err => console.error("Error fetching cars:", err));
 }
 
-// =================== MODAL ===================
 function openModal() {
     document.getElementById("formSection").classList.remove("hidden");
     document.getElementById("modalTitle").innerText = "Add New Car";
@@ -63,7 +60,7 @@ function closeModal() {
     document.getElementById("formSection").classList.add("hidden");
 }
 
-// =================== SAVE CAR ===================
+
 function saveCar(event) {
     event.preventDefault();
 
@@ -98,7 +95,7 @@ function saveCar(event) {
     .catch(err => console.error("Error saving car:", err));
 }
 
-// =================== EDIT CAR ===================
+
 function editCar(id) {
     fetch(`${apiUrl}/cars/${id}`)
         .then(res => {
@@ -121,7 +118,7 @@ function editCar(id) {
         .catch(err => console.error("Error editing car:", err));
 }
 
-// =================== DELETE CAR ===================
+
 function deleteCar(id) {
     fetch(`${apiUrl}/cars/${id}`, { method: "DELETE" })
         .then(res => {
