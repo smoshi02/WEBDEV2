@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Car Management</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="js/main.js"></script>
 </head>
 
 <body class="bg-green-50 min-h-screen p-8">
@@ -20,10 +21,10 @@
           + Add New Car
         </button>
 
-         <button id="logoutBtn"
-    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition">
-    Logout
-  </button>
+        <button id="logoutBtn"
+          class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition">
+          Logout
+        </button>
       </div>
     </div>
 
@@ -62,62 +63,80 @@
       </div>
 
       <div class="p-6">
-        <form id="carForm">
+        <form id="carForm" novalidate>
           <input type="hidden" id="carId">
 
           <div class="grid grid-cols-2 gap-4">
+            <!-- Make -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Make</label>
               <input type="text" id="make" placeholder="e.g., Toyota"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="makeError" class="text-red-500 text-xs mt-1 hidden">Please fill in the make</p>
             </div>
 
+            <!-- Model -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Model</label>
               <input type="text" id="model" placeholder="e.g., Camry"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="modelError" class="text-red-500 text-xs mt-1 hidden">Please fill in the model</p>
             </div>
 
+            <!-- Year -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Year</label>
               <input type="number" id="year" placeholder="e.g., 2024"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="yearError" class="text-red-500 text-xs mt-1 hidden">Please fill in the year</p>
             </div>
 
+            <!-- License Plate -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">License Plate</label>
               <input type="text" id="licensePlateNumber" placeholder="e.g., ABC-1234"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="licenseError" class="text-red-500 text-xs mt-1 hidden">Please fill in the license plate</p>
             </div>
 
+            <!-- Color -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Color</label>
               <input type="text" id="color" placeholder="e.g., Silver"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="colorError" class="text-red-500 text-xs mt-1 hidden">Please fill in the color</p>
             </div>
 
+            <!-- Body Type -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Body Type</label>
               <input type="text" id="bodyType" placeholder="e.g., Sedan"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="bodyError" class="text-red-500 text-xs mt-1 hidden">Please fill in the body type</p>
             </div>
 
+            <!-- Engine Type -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Engine Type</label>
               <input type="text" id="engineType" placeholder="e.g., V6"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="engineError" class="text-red-500 text-xs mt-1 hidden">Please fill in the engine type</p>
             </div>
 
+            <!-- Transmission -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Transmission</label>
               <input type="text" id="transmission" placeholder="e.g., Automatic"
-                class="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+                class="input-field w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition placeholder-gray-400">
+              <p id="transmissionError" class="text-red-500 text-xs mt-1 hidden">Please fill in the transmission</p>
             </div>
           </div>
 
           <div class="flex justify-end gap-3 mt-6 pt-4 border-t-2 border-green-100">
             <button type="button" onclick="closeModal()"
-              class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition border-2 border-gray-300">Cancel</button>
+              class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition border-2 border-gray-300">
+              Cancel
+            </button>
             <button type="submit"
               class="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold transition shadow-md">
               Save Car
@@ -127,8 +146,6 @@
       </div>
     </div>
   </div>
-
-  <script src="js/main.js"></script>
 </body>
 
 </html>
