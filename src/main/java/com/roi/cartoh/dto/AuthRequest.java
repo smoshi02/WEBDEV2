@@ -1,5 +1,10 @@
 package com.roi.cartoh.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record AuthRequest(
-        String username, String password
+        @NotBlank(message = "Username is required")
+        String username,
+        @NotBlank(message = "Password is required")
+        String password
 ) {}

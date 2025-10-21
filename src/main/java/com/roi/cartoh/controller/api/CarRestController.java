@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://127.0.0.1:5500") // allow requests from your frontend
+@CrossOrigin(origins = "*") // allow requests from your frontend
 @RestController
 @RequestMapping("/api")
 public class CarRestController {
