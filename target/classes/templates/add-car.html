@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/form.css">
+    <title>Add Car</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Add New Car</h1>
+
+<form th:action="@{/add}" th:object="${car}" method="post">
+
+    <label>License Plate:</label>
+    <input type="text" th:field="*{licensePlateNumber}" required/><br/><br/>
+
+    <label>Make:</label>
+    <input type="text" th:field="*{make}" required/><br/><br/>
+
+    <label>Model:</label>
+    <input type="text" th:field="*{model}" required/><br/><br/>
+
+    <label>Year:</label>
+    <input type="number" th:field="*{year}" min="1900" max="2099" required/><br/><br/>
+
+    <label>Color:</label>
+    <input type="text" th:field="*{color}" required/><br/><br/>
+
+    <label>Body Type:</label>
+    <select th:field="*{bodyType}" required>
+        <option value="">-- Select Body Type --</option>
+        <option value="Sedan">Sedan</option>
+        <option value="SUV">SUV</option>
+        <option value="Hatchback">Hatchback</option>
+    </select><br/><br/>
+
+    <label>Engine Type:</label>
+    <select th:field="*{engineType}" required>
+        <option value="">-- Select Engine Type --</option>
+        <option value="Gasoline">Gasoline</option>
+        <option value="Diesel">Diesel</option>
+        <option value="Electric">Electric</option>
+        <option value="Hybrid">Hybrid</option>
+    </select><br/><br/>
+
+    <label>Transmission:</label>
+    <select th:field="*{transmission}" required>
+        <option value="">-- Select Transmission --</option>
+        <option value="Automatic">Automatic</option>
+        <option value="Manual">Manual</option>
+    </select><br/><br/>
+
+    <button type="submit">Add Car</button>
+</form>
+
+<br/>
+<a th:href="@{/}">Back to Car List</a>
+
+</body>
+</html>
