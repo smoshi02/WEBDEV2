@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smoshi To-Do App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/jsx">
+      const tasks = [
+
+        { title: "Clean bedroom", 
+        isDone: false },
+
+        { title: "Water plants", 
+        isDone: false },
+
+      ];
+
+      function getInputValue() {
+        const inputBox = document.getElementById("taskInput");
+        return inputBox.value;
+      }
+
+      function TodoApp() {
+        const [taskList, setTaskList] = React.useState(tasks);
+
+        function addTask() {
+          const taskText = getInputValue();
+          if (taskText === "") return;
+
+          setTaskList([...taskList, { title: taskText, isDone: false }]);
+          document.getElementById("taskInput").value = "";
+        }
+
+        function toggleTask(index) {
+          const updated = [...taskList];
+          updated[index].isDone = !updated[index].isDone;
+          setTaskList(updated);
+        }
+
+        function deleteTask(index) {
+          const updated = taskList.filter((_, i) => i !== index);
+          setTaskList(updated);
+        }
+
+        return (
+          <div>
+            <h1>Smoshi To-Do List</h1>
+
+            <input type="text" id="taskInput" placeholder="Enter a new task..." />
+            <button className="add-btn" onClick={addTask}>Add</button>
+
+            <ul>
+              {taskList.map((task, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    checked={task.isDone}
+                    onChange={() => toggleTask(index)}
+                  />
+                  <span className={task.isDone ? "done" : ""}>{task.title}</span>
+                  <button className="delete-btn" onClick={() => deleteTask(index)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("app"));
+      root.render(<TodoApp />);
+    </script>
+  </body>
+</html>
