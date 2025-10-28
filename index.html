@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Car Management (React + Tailwind)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body class="bg-green-50 min-h-screen p-8 flex justify-center">
+    <div id="root" class="w-full max-w-7xl"></div>
+
+    <script type="text/babel">
+      const apiUrl = "http://localhost:8080/api";
+
+      function App() {
+        const [token, setToken] = React.useState(
+          localStorage.getItem("jwtToken") || ""
+        );
+        const [view, setView] = React.useState(token ? "cars" : "login");
+        const [cars, setCars] = React.useState([]);
+        const [showModal, setShowModal] = React.useState(false);
+        const [editingCar, setEditingCar] = React.useState(null);
+        const [form, setForm] = React.useState({
+          make: "",
+          model: "",
+          year: "",
+          licensePlateNumber: "",
+          color: "",
+          bodyType: "",
+          engineType: "",
+          transmission: "",
+        });
+        const [authForm, setAuthForm] = React.useState({
+          username: "",
+          password: "",
+          confirmPassword: "",
+        });
+        const [error, setError] = React.useState("");
+
+        React.useEffect(() => {
+          if (token) fetchCars();
+        }, [token]);
+
+        function fetchCars() {
+          fetch(`${apiUrl}/cars`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+            .then((res) => res.json())
+            .then(setCars)
+            .catch(console.error);
+        }
+
+        function handleAuthChange(e) {
+          const { id, value } = e.target;
+          setAuthForm((prev) => ({ ...prev, [id]: value }));
+        }
+
+        function loginUser(e) {
+          e.preventDefault();
+          setError("");
+          fetch(`${apiUrl}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: authForm.username,
+              password: authForm.password,
+            }),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error("Invalid username or password");
+              return res.json();
+            })
+            .then((data) => {
+              localStorage.setItem("jwtToken", data.token);
+              setToken(data.token);
+              setView("cars");
+              fetchCars();
+            })
+            .catch((err) => setError(err.message));
+        }
+
+        function registerUser(e) {
+          e.preventDefault();
+          setError("");
+          if (authForm.password !== authForm.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+          }
+          fetch(`${apiUrl}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: authForm.username,
+              password: authForm.password,
+            }),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error("Registration failed");
+              return res.json();
+            })
+            .then(() => setView("login"))
+            .catch((err) => setError(err.message));
+        }
+
+        function logout() {
+          localStorage.removeItem("jwtToken");
+          setToken("");
+          setCars([]);
+          setView("login");
+        }
+
+        function openAddModal() {
+          setEditingCar(null);
+          setForm({
+            make: "",
+            model: "",
+            year: "",
+            licensePlateNumber: "",
+            color: "",
+            bodyType: "",
+            engineType: "",
+            transmission: "",
+          });
+          setShowModal(true);
+        }
+
+        function openEditModal(car) {
+          setEditingCar(car);
+          setForm(car);
+          setShowModal(true);
+        }
+
+        function saveCar(e) {
+          e.preventDefault();
+          const method = editingCar ? "PUT" : "POST";
+          const url = editingCar
+            ? `${apiUrl}/cars/${editingCar.id}`
+            : `${apiUrl}/cars`;
+          fetch(url, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(form),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error("Failed to save car");
+              return res.json();
+            })
+            .then(() => {
+              setShowModal(false);
+              fetchCars();
+            })
+            .catch((err) => alert(err.message));
+        }
+
+        function deleteCar(id) {
+          if (!confirm("Delete this car?")) return;
+          fetch(`${apiUrl}/cars/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          })
+            .then(() => fetchCars())
+            .catch(console.error);
+        }
+
+        function handleChange(e) {
+          const { id, value } = e.target;
+          setForm((prev) => ({ ...prev, [id]: value }));
+        }
+
+        if (view === "login") {
+          return (
+            <div className="min-h-screen flex items-center justify-center bg-green-50">
+              <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8">
+                <h2 className="text-3xl font-bold text-green-700 text-center mb-6">
+                  Login
+                </h2>
+                {error && (
+                  <p className="text-red-500 text-center mb-3">{error}</p>
+                )}
+                <form onSubmit={loginUser} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      Username
+                    </label>
+                    <input
+                      id="username"
+                      value={authForm.username}
+                      onChange={handleAuthChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      value={authForm.password}
+                      onChange={handleAuthChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    />
+                  </div>
+                  <p className="text-sm text-gray-600 text-center">
+                    Don’t have an account?{" "}
+                    <span
+                      onClick={() => setView("register")}
+                      className="text-green-600 hover:underline font-semibold cursor-pointer"
+                    >
+                      Register here
+                    </span>
+                  </p>
+                  <button
+                    type="submit"
+                    className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition"
+                  >
+                    Login
+                  </button>
+                </form>
+              </div>
+            </div>
+          );
+        }
+
+        if (view === "register") {
+          return (
+            <div className="min-h-screen flex items-center justify-center bg-green-50">
+              <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8">
+                <h2 className="text-3xl font-bold text-green-700 text-center mb-6">
+                  Register
+                </h2>
+                {error && (
+                  <p className="text-red-500 text-center mb-3">{error}</p>
+                )}
+                <form onSubmit={registerUser} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      Username
+                    </label>
+                    <input
+                      id="username"
+                      value={authForm.username}
+                      onChange={handleAuthChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      value={authForm.password}
+                      onChange={handleAuthChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      value={authForm.confirmPassword}
+                      onChange={handleAuthChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition"
+                  >
+                    Register
+                  </button>
+                  <p className="text-sm text-gray-600 text-center">
+                    Already have an account?{" "}
+                    <span
+                      onClick={() => setView("login")}
+                      className="text-green-600 hover:underline font-semibold cursor-pointer"
+                    >
+                      Login here
+                    </span>
+                  </p>
+                </form>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div className="bg-white rounded-xl shadow-md overflow-hidden w-full p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold text-gray-800">
+                Car Management
+              </h1>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={openAddModal}
+                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg shadow-md transition"
+                >
+                  + Add New Car
+                </button>
+                <button
+                  onClick={logout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-green-100 border-b-2 border-green-200">
+                  <tr>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      #
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Make
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Model
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Year
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      License Plate
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Color
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Body Type
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Engine Type
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Transmission
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {cars.map((car, index) => (
+                    <tr key={car.id} className="hover:bg-green-50 transition">
+                      <td className="px-4 py-3 text-center">{index + 1}</td>
+                      <td className="px-4 py-3 text-center">{car.make}</td>
+                      <td className="px-4 py-3 text-center">{car.model}</td>
+                      <td className="px-4 py-3 text-center">{car.year}</td>
+                      <td className="px-4 py-3 text-center">
+                        {car.licensePlateNumber}
+                      </td>
+                      <td className="px-4 py-3 text-center">{car.color}</td>
+                      <td className="px-4 py-3 text-center">{car.bodyType}</td>
+                      <td className="px-4 py-3 text-center">
+                        {car.engineType}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        {car.transmission}
+                      </td>
+                      <td className="px-4 py-3 text-center space-x-2">
+                        <button
+                          onClick={() => openEditModal(car)}
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-md"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => deleteCar(car.id)}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* ======= Modal ======= */}
+            {showModal && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl w-full max-w-2xl shadow-2xl border-2 border-green-200">
+                  <div className="bg-green-600 text-white p-6 rounded-t-2xl">
+                    <h2 className="text-2xl font-bold">
+                      {editingCar ? "Edit Car" : "Add New Car"}
+                    </h2>
+                    <p className="text-green-100 text-sm mt-1">
+                      Fill in the details below
+                    </p>
+                  </div>
+
+                  <form
+                    onSubmit={saveCar}
+                    className="p-6 grid grid-cols-2 gap-4"
+                  >
+                    {[
+                      "make",
+                      "model",
+                      "year",
+                      "licensePlateNumber",
+                      "color",
+                      "bodyType",
+                      "engineType",
+                      "transmission",
+                    ].map((field) => (
+                      <div key={field}>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2 capitalize">
+                          {field.replace(/([A-Z])/g, " $1")}
+                        </label>
+                        <input
+                          id={field}
+                          value={form[field] || ""}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+                          required
+                        />
+                      </div>
+                    ))}
+                    <div className="col-span-2 flex justify-end gap-3 mt-6 pt-4 border-t-2 border-green-100">
+                      <button
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition border-2 border-gray-300"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold transition shadow-md"
+                      >
+                        Save Car
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
