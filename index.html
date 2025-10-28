@@ -22,10 +22,8 @@
       const apiUrl = "http://localhost:8080/api";
 
       function App() {
-        const [token, setToken] = React.useState(
-          localStorage.getItem("jwtToken") || ""
-        );
-        const [view, setView] = React.useState(token ? "cars" : "login");
+        const [token, setToken] = React.useState("");
+        const [view, setView] = React.useState("login");
         const [cars, setCars] = React.useState([]);
         const [showModal, setShowModal] = React.useState(false);
         const [editingCar, setEditingCar] = React.useState(null);
@@ -44,7 +42,9 @@
           password: "",
           confirmPassword: "",
         });
-        const [error, setError] = React.useState("");
+        const [errors, setErrors] = React.useState({});
+        const [authErrors, setAuthErrors] = React.useState({});
+        const [generalError, setGeneralError] = React.useState("");
 
         React.useEffect(() => {
           if (token) fetchCars();
@@ -59,14 +59,129 @@
             .catch(console.error);
         }
 
+        function validateAuthForm(isRegister = false) {
+          const newErrors = {};
+          
+          if (!authForm.username.trim()) {
+            newErrors.username = "Username is required";
+          } else if (authForm.username.length < 3) {
+            newErrors.username = "Username must be at least 3 characters";
+          } else if (authForm.username.length > 20) {
+            newErrors.username = "Username must not exceed 20 characters";
+          } else if (!/^[a-zA-Z0-9_]+$/.test(authForm.username)) {
+            newErrors.username = "Username can only contain letters, numbers, and underscores";
+          }
+
+          if (!authForm.password) {
+            newErrors.password = "Password is required";
+          } else if (authForm.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters";
+          } else if (isRegister && authForm.password.length > 50) {
+            newErrors.password = "Password must not exceed 50 characters";
+          }
+
+          if (isRegister) {
+            if (!authForm.confirmPassword) {
+              newErrors.confirmPassword = "Please confirm your password";
+            } else if (authForm.password !== authForm.confirmPassword) {
+              newErrors.confirmPassword = "Passwords do not match";
+            }
+          }
+
+          setAuthErrors(newErrors);
+          return Object.keys(newErrors).length === 0;
+        }
+
+        function validateCarForm() {
+          const newErrors = {};
+
+          if (!form.make.trim()) {
+            newErrors.make = "Make is required";
+          } else if (form.make.length < 2) {
+            newErrors.make = "Make must be at least 2 characters";
+          } else if (form.make.length > 50) {
+            newErrors.make = "Make must not exceed 50 characters";
+          }
+
+          if (!form.model.trim()) {
+            newErrors.model = "Model is required";
+          } else if (form.model.length < 1) {
+            newErrors.model = "Model must be at least 1 character";
+          } else if (form.model.length > 50) {
+            newErrors.model = "Model must not exceed 50 characters";
+          }
+
+          const currentYear = new Date().getFullYear();
+          if (!form.year) {
+            newErrors.year = "Year is required";
+          } else if (isNaN(form.year)) {
+            newErrors.year = "Year must be a number";
+          } else if (form.year < 1900) {
+            newErrors.year = "Year must be 1900 or later";
+          } else if (form.year > currentYear + 1) {
+            newErrors.year = `Year cannot be later than ${currentYear + 1}`;
+          }
+
+          if (!form.licensePlateNumber.trim()) {
+            newErrors.licensePlateNumber = "License plate number is required";
+          } else if (form.licensePlateNumber.length < 2) {
+            newErrors.licensePlateNumber = "License plate must be at least 2 characters";
+          } else if (form.licensePlateNumber.length > 20) {
+            newErrors.licensePlateNumber = "License plate must not exceed 20 characters";
+          }
+
+          if (!form.color.trim()) {
+            newErrors.color = "Color is required";
+          } else if (form.color.length < 2) {
+            newErrors.color = "Color must be at least 2 characters";
+          } else if (form.color.length > 30) {
+            newErrors.color = "Color must not exceed 30 characters";
+          }
+
+          if (!form.bodyType.trim()) {
+            newErrors.bodyType = "Body type is required";
+          } else if (form.bodyType.length < 2) {
+            newErrors.bodyType = "Body type must be at least 2 characters";
+          } else if (form.bodyType.length > 30) {
+            newErrors.bodyType = "Body type must not exceed 30 characters";
+          }
+
+          if (!form.engineType.trim()) {
+            newErrors.engineType = "Engine type is required";
+          } else if (form.engineType.length < 2) {
+            newErrors.engineType = "Engine type must be at least 2 characters";
+          } else if (form.engineType.length > 30) {
+            newErrors.engineType = "Engine type must not exceed 30 characters";
+          }
+
+          if (!form.transmission.trim()) {
+            newErrors.transmission = "Transmission is required";
+          } else if (form.transmission.length < 2) {
+            newErrors.transmission = "Transmission must be at least 2 characters";
+          } else if (form.transmission.length > 30) {
+            newErrors.transmission = "Transmission must not exceed 30 characters";
+          }
+
+          setErrors(newErrors);
+          return Object.keys(newErrors).length === 0;
+        }
+
         function handleAuthChange(e) {
           const { id, value } = e.target;
           setAuthForm((prev) => ({ ...prev, [id]: value }));
+          if (authErrors[id]) {
+            setAuthErrors((prev) => ({ ...prev, [id]: "" }));
+          }
         }
 
         function loginUser(e) {
           e.preventDefault();
-          setError("");
+          setGeneralError("");
+          
+          if (!validateAuthForm(false)) {
+            return;
+          }
+
           fetch(`${apiUrl}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -75,26 +190,34 @@
               password: authForm.password,
             }),
           })
-            .then((res) => {
-              if (!res.ok) throw new Error("Invalid username or password");
-              return res.json();
+            .then((response) => {
+              if (!response.ok) {
+                setGeneralError("Invalid username or password.");
+                return null;
+              }
+              return response.json();
             })
             .then((data) => {
-              localStorage.setItem("jwtToken", data.token);
-              setToken(data.token);
-              setView("cars");
-              fetchCars();
+              if (data) {
+                setToken(data.token);
+                setView("cars");
+                setAuthErrors({});
+                fetchCars();
+              }
             })
-            .catch((err) => setError(err.message));
+            .catch(() => {
+              setGeneralError("Invalid username or password");
+            });
         }
 
         function registerUser(e) {
           e.preventDefault();
-          setError("");
-          if (authForm.password !== authForm.confirmPassword) {
-            setError("Passwords do not match");
+          setGeneralError("");
+          
+          if (!validateAuthForm(true)) {
             return;
           }
+
           fetch(`${apiUrl}/auth/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -103,16 +226,26 @@
               password: authForm.password,
             }),
           })
-            .then((res) => {
-              if (!res.ok) throw new Error("Registration failed");
-              return res.json();
+            .then((response) => {
+              if (!response.ok) {
+                setGeneralError("Registration failed. Username may already exist.");
+                return null;
+              }
+              return response.json();
             })
-            .then(() => setView("login"))
-            .catch((err) => setError(err.message));
+            .then((data) => {
+              if (data) {
+                setView("login");
+                setAuthErrors({});
+                setAuthForm({ username: "", password: "", confirmPassword: "" });
+              }
+            })
+            .catch(() => {
+              setGeneralError("Registration failed. Username may already exist.");
+            });
         }
 
         function logout() {
-          localStorage.removeItem("jwtToken");
           setToken("");
           setCars([]);
           setView("login");
@@ -130,21 +263,29 @@
             engineType: "",
             transmission: "",
           });
+          setErrors({});
           setShowModal(true);
         }
 
         function openEditModal(car) {
           setEditingCar(car);
           setForm(car);
+          setErrors({});
           setShowModal(true);
         }
 
         function saveCar(e) {
           e.preventDefault();
+          
+          if (!validateCarForm()) {
+            return;
+          }
+
           const method = editingCar ? "PUT" : "POST";
           const url = editingCar
             ? `${apiUrl}/cars/${editingCar.id}`
             : `${apiUrl}/cars`;
+          
           fetch(url, {
             method,
             headers: {
@@ -153,15 +294,23 @@
             },
             body: JSON.stringify(form),
           })
-            .then((res) => {
-              if (!res.ok) throw new Error("Failed to save car");
-              return res.json();
+            .then((response) => {
+              if (!response.ok) {
+                alert("Failed to save car");
+                return null;
+              }
+              return response.json();
             })
-            .then(() => {
-              setShowModal(false);
-              fetchCars();
+            .then((data) => {
+              if (data) {
+                setShowModal(false);
+                setErrors({});
+                fetchCars();
+              }
             })
-            .catch((err) => alert(err.message));
+            .catch(() => {
+              alert("Failed to save car");
+            });
         }
 
         function deleteCar(id) {
@@ -177,6 +326,9 @@
         function handleChange(e) {
           const { id, value } = e.target;
           setForm((prev) => ({ ...prev, [id]: value }));
+          if (errors[id]) {
+            setErrors((prev) => ({ ...prev, [id]: "" }));
+          }
         }
 
         if (view === "login") {
@@ -186,8 +338,10 @@
                 <h2 className="text-3xl font-bold text-green-700 text-center mb-6">
                   Login
                 </h2>
-                {error && (
-                  <p className="text-red-500 text-center mb-3">{error}</p>
+                {generalError && (
+                  <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {generalError}
+                  </div>
                 )}
                 <form onSubmit={loginUser} className="space-y-4">
                   <div>
@@ -198,8 +352,15 @@
                       id="username"
                       value={authForm.username}
                       onChange={handleAuthChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none ${
+                        authErrors.username
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-green-500"
+                      }`}
                     />
+                    {authErrors.username && (
+                      <p className="text-red-500 text-sm mt-1">{authErrors.username}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -210,13 +371,25 @@
                       id="password"
                       value={authForm.password}
                       onChange={handleAuthChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none ${
+                        authErrors.password
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-green-500"
+                      }`}
                     />
+                    {authErrors.password && (
+                      <p className="text-red-500 text-sm mt-1">{authErrors.password}</p>
+                    )}
                   </div>
                   <p className="text-sm text-gray-600 text-center">
-                    Don’t have an account?{" "}
+                    Don't have an account?{" "}
                     <span
-                      onClick={() => setView("register")}
+                      onClick={() => {
+                        setView("register");
+                        setAuthErrors({});
+                        setGeneralError("");
+                        setAuthForm({ username: "", password: "", confirmPassword: "" });
+                      }}
                       className="text-green-600 hover:underline font-semibold cursor-pointer"
                     >
                       Register here
@@ -241,8 +414,10 @@
                 <h2 className="text-3xl font-bold text-green-700 text-center mb-6">
                   Register
                 </h2>
-                {error && (
-                  <p className="text-red-500 text-center mb-3">{error}</p>
+                {generalError && (
+                  <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {generalError}
+                  </div>
                 )}
                 <form onSubmit={registerUser} className="space-y-4">
                   <div>
@@ -253,8 +428,15 @@
                       id="username"
                       value={authForm.username}
                       onChange={handleAuthChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none ${
+                        authErrors.username
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-green-500"
+                      }`}
                     />
+                    {authErrors.username && (
+                      <p className="text-red-500 text-sm mt-1">{authErrors.username}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -265,8 +447,15 @@
                       id="password"
                       value={authForm.password}
                       onChange={handleAuthChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none ${
+                        authErrors.password
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-green-500"
+                      }`}
                     />
+                    {authErrors.password && (
+                      <p className="text-red-500 text-sm mt-1">{authErrors.password}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -277,8 +466,15 @@
                       id="confirmPassword"
                       value={authForm.confirmPassword}
                       onChange={handleAuthChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none ${
+                        authErrors.confirmPassword
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-green-500"
+                      }`}
                     />
+                    {authErrors.confirmPassword && (
+                      <p className="text-red-500 text-sm mt-1">{authErrors.confirmPassword}</p>
+                    )}
                   </div>
                   <button
                     type="submit"
@@ -289,7 +485,12 @@
                   <p className="text-sm text-gray-600 text-center">
                     Already have an account?{" "}
                     <span
-                      onClick={() => setView("login")}
+                      onClick={() => {
+                        setView("login");
+                        setAuthErrors({});
+                        setGeneralError("");
+                        setAuthForm({ username: "", password: "", confirmPassword: "" });
+                      }}
                       className="text-green-600 hover:underline font-semibold cursor-pointer"
                     >
                       Login here
@@ -397,10 +598,9 @@
               </table>
             </div>
 
-            {/* ======= Modal ======= */}
             {showModal && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl w-full max-w-2xl shadow-2xl border-2 border-green-200">
+                <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl w-full max-w-2xl shadow-2xl border-2 border-green-200 max-h-[90vh] overflow-y-auto">
                   <div className="bg-green-600 text-white p-6 rounded-t-2xl">
                     <h2 className="text-2xl font-bold">
                       {editingCar ? "Edit Car" : "Add New Car"}
@@ -415,32 +615,42 @@
                     className="p-6 grid grid-cols-2 gap-4"
                   >
                     {[
-                      "make",
-                      "model",
-                      "year",
-                      "licensePlateNumber",
-                      "color",
-                      "bodyType",
-                      "engineType",
-                      "transmission",
-                    ].map((field) => (
+                      { field: "make", label: "Make" },
+                      { field: "model", label: "Model" },
+                      { field: "year", label: "Year", type: "number" },
+                      { field: "licensePlateNumber", label: "License Plate Number" },
+                      { field: "color", label: "Color" },
+                      { field: "bodyType", label: "Body Type" },
+                      { field: "engineType", label: "Engine Type" },
+                      { field: "transmission", label: "Transmission" },
+                    ].map(({ field, label, type = "text" }) => (
                       <div key={field}>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2 capitalize">
-                          {field.replace(/([A-Z])/g, " $1")}
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          {label}
                         </label>
                         <input
                           id={field}
+                          type={type}
                           value={form[field] || ""}
                           onChange={handleChange}
-                          className="w-full px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-                          required
+                          className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 transition ${
+                            errors[field]
+                              ? "border-red-500 focus:ring-red-500"
+                              : "border-green-300 focus:ring-green-500 focus:border-green-500"
+                          }`}
                         />
+                        {errors[field] && (
+                          <p className="text-red-500 text-sm mt-1">{errors[field]}</p>
+                        )}
                       </div>
                     ))}
                     <div className="col-span-2 flex justify-end gap-3 mt-6 pt-4 border-t-2 border-green-100">
                       <button
                         type="button"
-                        onClick={() => setShowModal(false)}
+                        onClick={() => {
+                          setShowModal(false);
+                          setErrors({});
+                        }}
                         className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition border-2 border-gray-300"
                       >
                         Cancel
