@@ -11,40 +11,40 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
-@CrossOrigin
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
-    private final ProductService productService;
+    private final ProductService service;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductService service) {
+        this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/products")
     public List<Product> getAll() {
-        return productService.findAll();
+        return service.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/products")
     public Product create(@Valid @RequestBody ProductDTO dto) {
-        return productService.save(dto);
+        return service.save(dto);
     }
 
-    @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable int id, @Valid @RequestBody ProductDTO dto) {
-        Product existing = productService.findById(id);
+    @PutMapping("/products/{id}")
+    public Product update(@PathVariable int id, @Valid @RequestBody ProductDTO dto) {
+        Product existing = service.findById(id);
         if (existing == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with ID " + id + " not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found.");
         }
-        return productService.updateProduct(existing, dto);
+        return service.updateProduct(existing, dto);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable int id) {
-        if (productService.findById(id) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with ID " + id + " not found.");
+    @DeleteMapping("/products/{id}")
+    public void delete(@PathVariable int id) {
+        if (service.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found.");
         }
-        productService.deleteProduct(id);
+        service.deleteProduct(id);
     }
 }
