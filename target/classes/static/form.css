@@ -1,0 +1,81 @@
+/* form.css - for Add Car form */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f7f1; /* very light matcha green */
+    color: #2f4f2f;
+    margin: 30px;
+}
+
+h1 {
+    color: #4b8b3b;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 25px 30px;
+    box-shadow: 0 2px 10px rgba(75, 139, 59, 0.3);
+    border-radius: 8px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #3a6a2b;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 20px;
+    border: 1.5px solid #a4cfa1;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #2f4f2f;
+    background-color: #f7fdf5;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #4b8b3b;
+    outline: none;
+    background-color: #e7f0e9;
+}
+
+button {
+    background-color: #4b8b3b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #3a6a2b;
+}
+
+a {
+    display: block;
+    margin-top: 25px;
+    text-align: center;
+    color: #4b8b3b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
